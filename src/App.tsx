@@ -11,9 +11,11 @@ import {
   Appointments,
   AppointmentTooltip,
   ConfirmationDialog,
+  DateNavigator,
   DayView,
   MonthView,
   Scheduler,
+  TodayButton,
   Toolbar,
   ViewSwitcher,
   WeekView,
@@ -22,6 +24,7 @@ import Paper from "@mui/material/Paper";
 import { useState } from "react";
 
 export default function App() {
+  const locale = "pl-PL";
   const [currentDate, setCurrentDate] = useState<SchedulerDateTime>(
     new Date().toISOString()
   );
@@ -61,9 +64,17 @@ export default function App() {
     }
   }
 
+  const todayPolishMessage = {
+    "pl-PL": {
+      today: "Dzisiaj",
+    },
+  };
+
+  const getTodayPolishMessage = () => todayPolishMessage[locale];
+
   return (
     <Paper>
-      <Scheduler data={appointments} locale={"pl-PL"} height={600}>
+      <Scheduler data={appointments} locale={locale} height={600}>
         <ViewState
           currentDate={currentDate}
           onCurrentDateChange={setCurrentDate}
@@ -99,6 +110,10 @@ export default function App() {
         <AppointmentForm />
 
         <Toolbar />
+
+        <DateNavigator />
+
+        <TodayButton messages={getTodayPolishMessage()} />
 
         <ViewSwitcher />
       </Scheduler>
