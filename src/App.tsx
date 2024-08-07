@@ -13,7 +13,6 @@ import {
   ConfirmationDialog,
   DayView,
   MonthView,
-  Resources,
   Scheduler,
   Toolbar,
   ViewSwitcher,
@@ -41,17 +40,6 @@ export default function App() {
       title: "Go to a gym",
     },
   ]);
-
-  const resources = [
-    {
-      fieldName: "type",
-      title: "Type",
-      instances: [
-        { id: "private", text: "Private", color: "#EC407A" },
-        { id: "work", text: "Work", color: "#7E57C2" },
-      ],
-    },
-  ];
 
   function commitChanges({ added, changed, deleted }: ChangeSet) {
     if (added) {
@@ -113,8 +101,6 @@ export default function App() {
         <Toolbar />
 
         <ViewSwitcher />
-
-        <Resources data={resources} />
       </Scheduler>
     </Paper>
   );
