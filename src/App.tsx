@@ -33,6 +33,14 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "./config/firebase";
+import {
+  allDayPolishMessage,
+  confirmationDialogPolishMessages,
+  editRecurrenceMenuPolishMessages,
+  formPolishMessages,
+  todayPolishMessage,
+} from "./locales/pl";
+
 export default function App() {
   const locale = "pl-PL";
 
@@ -81,10 +89,12 @@ export default function App() {
 
       const docSnap = await getDoc(docRef);
 
+      const changedEntries = Object.entries(changed)[0][1];
+
       await updateDoc(docRef, {
-        ...Object.entries(changed)[0][1],
-        rRule: Object.entries(changed)[0][1].rRule ?? docSnap.data()?.rRule,
-        exDate: Object.entries(changed)[0][1].exDate ?? docSnap.data()?.exDate,
+        ...changedEntries,
+        rRule: changedEntries.rRule ?? docSnap.data()?.rRule,
+        exDate: changedEntries.exDate ?? docSnap.data()?.exDate,
       });
     }
 
@@ -93,68 +103,11 @@ export default function App() {
         appointments.filter((appointment) => appointment.id !== deleted)
       );
 
-      console.log(deleted);
-
       const docRef = doc(db, "appointments", deleted.toString());
 
       await deleteDoc(docRef);
     }
   }
-
-  const todayPolishMessage = {
-    "pl-PL": {
-      today: "Dzisiaj",
-    },
-  };
-
-  const formPolishMessages = {
-    "pl-PL": {
-      detailsLabel: "Szczegóły",
-      titleLabel: "Tytuł",
-      allDayLabel: "Cały dzień",
-      repeatLabel: "Powtarzaj",
-      moreInformationLabel: "Więcej informacji",
-      notesLabel: "...",
-      repeatEveryLabel: "Powtarzaj co",
-      daysLabel: "dni",
-      endRepeatLabel: "Zakończ powtarzanie",
-      never: "Nigdy",
-      onLabel: "Po",
-      occurrencesLabel: "wystąpieniach",
-      afterLabel: "W dniu",
-      commitCommand: "Zapisz",
-      daily: "Codziennie",
-      weekly: "Co tydzień",
-      monthly: "Co miesiąc",
-      yearly: "Co rok",
-    },
-  };
-
-  const confirmationDialogPolishMessages = {
-    "pl-PL": {
-      confirmDeleteMessage: "Czy na pewno chcesz usunąć to wydarzenie?",
-      confirmCancelMessage: "Czy na pewno chcesz anulować zmiany?",
-      discardButton: "Tak",
-      deleteButton: "Usuń",
-      cancelButton: "Anuluj",
-    },
-  };
-
-  const allDayPolishMessage = {
-    "pl-PL": {
-      allDay: "Cały dzień",
-    },
-  };
-
-  const editRecurrenceMenuPolishMessages = {
-    "pl-PL": {
-      all: "Wszystkie",
-      currentAndFollowing: "Bieżące i następne",
-      current: "Bieżące",
-      cancelButton: "Anuluj",
-      commitButton: "Zapisz",
-    },
-  };
 
   const getTodayPolishMessage = () => todayPolishMessage[locale];
 
